@@ -11,7 +11,7 @@ for the time being, please use the `develop` branch. the main openai repo is blo
 
 2. run `pnpm install`
 
-3. run `PROJECT_ID=xxx VOLT_TOKEN=xxx pnpm run dev`
+3. run `REACT_APP_PROJECT_ID=xxx REACT_APP_VOLT_TOKEN=xxx pnpm start`
 
 and you should be able to connect!
 

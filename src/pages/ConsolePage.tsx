@@ -5,7 +5,7 @@
  *
  * Simply switch the lines by commenting one and removing the other
  */
-const USE_LOCAL_RELAY_SERVER_URL = `https://wss.volt.bench.audio/p/${process.env.PROJECT_ID}?volt_token=${process.env.VOLT_TOKEN}`;
+const USE_LOCAL_RELAY_SERVER_URL = `https://wss.volt.bench.audio/p/${process.env.REACT_APP_PROJECT_ID}?voltToken=${process.env.REACT_APP_VOLT_TOKEN}`;
 // const USE_LOCAL_RELAY_SERVER_URL: string | undefined = void 0;
 
 import { useCallback, useEffect, useRef, useState } from "react";
