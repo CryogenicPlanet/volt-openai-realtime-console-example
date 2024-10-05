@@ -5,7 +5,7 @@
  *
  * Simply switch the lines by commenting one and removing the other
  */
-const USE_LOCAL_RELAY_SERVER_URL: string | undefined = "";
+const USE_LOCAL_RELAY_SERVER_URL = `https://wss.volt.bench.audio/p/${process.env.PROJECT_ID}?volt_token=${process.env.VOLT_TOKEN}`;
 // const USE_LOCAL_RELAY_SERVER_URL: string | undefined = void 0;
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -17,6 +17,7 @@ import { instructions } from "../utils/conversation_config.js";
 import { WavRenderer } from "../utils/wav_renderer";
 
 import { ArrowDown, ArrowUp, Edit, X, Zap } from "react-feather";
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 import { Map } from "../components/Map";
 import { Button } from "../components/button/Button";
 import { Toggle } from "../components/toggle/Toggle";
@@ -139,9 +140,9 @@ export function ConsolePage() {
 		const s = Math.floor(delta / 1000) % 60;
 		const m = Math.floor(delta / 60_000) % 60;
 		const pad = (n: number) => {
-			let s = n + "";
+			let s = `${n}`;
 			while (s.length < 2) {
-				s = "0" + s;
+				s = `0${s}`;
 			}
 			return s;
 		};
@@ -185,8 +186,8 @@ export function ConsolePage() {
 		await client.connect();
 		client.sendUserMessageContent([
 			{
-				type: `input_text`,
-				text: `Hello!`,
+				type: "input_text",
+				text: "Hello!",
 				// text: `For testing purposes, I want you to list ten car brands. Number each item, e.g. "one (or whatever number you are one): the item name".`
 			},
 		]);
@@ -274,6 +275,8 @@ export function ConsolePage() {
 	/**
 	 * Auto-scroll the event logs
 	 */
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (eventsScrollRef.current) {
 			const eventsEl = eventsScrollRef.current;
@@ -289,6 +292,8 @@ export function ConsolePage() {
 	/**
 	 * Auto-scroll the conversation logs
 	 */
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		const conversationEls = [].slice.call(
 			document.body.querySelectorAll("[data-conversation-content]"),
@@ -465,6 +470,7 @@ export function ConsolePage() {
 					// if we receive multiple events in a row, aggregate them for display purposes
 					lastEvent.count = (lastEvent.count || 0) + 1;
 					return realtimeEvents.slice(0, -1).concat(lastEvent);
+					// biome-ignore lint/style/noUselessElse: <explanation>
 				} else {
 					return realtimeEvents.concat(realtimeEvent);
 				}
@@ -509,6 +515,7 @@ export function ConsolePage() {
 		<div data-component="ConsolePage">
 			<div className="content-top">
 				<div className="content-title">
+					{/* biome-ignore lint/a11y/useAltText: <explanation> */}
 					<img src="/openai-logomark.svg" />
 					<span>realtime console</span>
 				</div>
@@ -537,6 +544,7 @@ export function ConsolePage() {
 						</div>
 						<div className="content-block-title">events</div>
 						<div className="content-block-body" ref={eventsScrollRef}>
+							{/* biome-ignore lint/style/noUnusedTemplateLiteral: <explanation> */}
 							{!realtimeEvents.length && `awaiting connection...`}
 							{realtimeEvents.map((realtimeEvent, i) => {
 								const count = realtimeEvent.count;
@@ -604,6 +612,7 @@ export function ConsolePage() {
 					<div className="content-block conversation">
 						<div className="content-block-title">conversation</div>
 						<div className="content-block-body" data-conversation-content>
+							{/* biome-ignore lint/style/noUnusedTemplateLiteral: <explanation> */}
 							{!items.length && `awaiting connection...`}
 							{items.map((conversationItem, i) => {
 								return (
@@ -614,6 +623,7 @@ export function ConsolePage() {
 													conversationItem.role || conversationItem.type
 												).replaceAll("_", " ")}
 											</div>
+											{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 											<div
 												className="close"
 												onClick={() =>
@@ -623,6 +633,7 @@ export function ConsolePage() {
 												<X />
 											</div>
 										</div>
+										{/* biome-ignore lint/style/noUnusedTemplateLiteral: <explanation> */}
 										<div className={`speaker-content`}>
 											{/* tool response */}
 											{conversationItem.type === "function_call_output" && (
@@ -654,6 +665,7 @@ export function ConsolePage() {
 													</div>
 												)}
 											{conversationItem.formatted.file && (
+												// biome-ignore lint/a11y/useMediaCaption: <explanation>
 												<audio
 													src={conversationItem.formatted.file.url}
 													controls
